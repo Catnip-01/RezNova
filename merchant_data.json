@@ -1,0 +1,20 @@
+{
+    "Mechanical Engineering Block_Mechanical Engineering Block, M S Ramaiah Nagar Road, MSR Nagar, Mathikere, Bengaluru 560054, India": {
+        "title": "Mechanical Engineering Block",
+        "category": "movie",
+        "address": "Mechanical Engineering Block, M S Ramaiah Nagar Road, MSR Nagar, Mathikere, Bengaluru 560054, India",
+        "position": {
+            "lat": 13.03073,
+            "lng": 77.56538
+        }
+    },
+    "Domino's-Bull Temple Road Basvangudi Bangalore_Domino's-Bull Temple Road Basvangudi Bangalore, Bull Temple Road, Gandhi Bazar, Basavanagudi, Bengaluru 560004, India": {
+        "title": "Domino's-Bull Temple Road Basvangudi Bangalore",
+        "category": "Fast Food",
+        "address": "Domino's-Bull Temple Road Basvangudi Bangalore, Bull Temple Road, Gandhi Bazar, Basavanagudi, Bengaluru 560004, India",
+        "position": {
+            "lat": 12.94514,
+            "lng": 77.56799
+        }
+    }
+}
