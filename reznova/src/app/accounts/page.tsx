@@ -2,11 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { FaUserCircle, FaSignOutAlt, FaChartLine, FaPiggyBank, FaListAlt } from 'react-icons/fa';
-import AmazingNavbar from '../AmazingNavbar/page';
 import { Line } from 'react-chartjs-2';
-import { useRouter } from 'next/navigation'; // Import useRouter for programmatic navigation
-
+import AmazingNavbar from '../AmazingNavbar/page';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -44,6 +41,7 @@ const ProfilePage = () => {
     const [expenseName, setExpenseName] = useState('');
     const [expenseAmount, setExpenseAmount] = useState('');
     const [expenseDate, setExpenseDate] = useState('');
+    const [displayedExpenses, setDisplayedExpenses] = useState<Expense[]>([]);
     const [chartData, setChartData] = useState({
         labels: [],
         datasets: [
@@ -58,42 +56,33 @@ const ProfilePage = () => {
     const chartSectionRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
-        updateChartData();
-    }, [pastExpenses]);
-
-    const updateChartData = () => {
+        const sorted = [...pastExpenses].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        const recent = sorted.slice(-daysToShow);
+        setDisplayedExpenses(recent);
         setChartData({
-            labels: pastExpenses.map(exp => exp.date),
+            labels: recent.map(exp => exp.date),
             datasets: [
                 {
                     label: 'Daily Expenditure',
-                    data: pastExpenses.map(exp => exp.amount),
+                    data: recent.map(exp => exp.amount),
                     borderColor: 'rgba(75,192,192,1)',
                     fill: false,
                 },
             ],
         });
-    };
-
-    useEffect(() => {
-        setDisplayedExpenses(pastExpenses.slice(-daysToShow));
     }, [daysToShow, pastExpenses]);
-
-    const [displayedExpenses, setDisplayedExpenses] = useState<Expense[]>(pastExpenses.slice(-daysToShow));
 
     const handleExpenseSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const newExpense = {
+        const newExpense: Expense = {
             date: expenseDate,
             amount: parseFloat(expenseAmount),
             name: expenseName,
         };
-        setPastExpenses([...pastExpenses, newExpense]);
+        setPastExpenses(prev => [...prev, newExpense]);
         setExpenseName('');
         setExpenseAmount('');
         setExpenseDate('');
-
-        // Scroll to the chart section
         chartSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
@@ -115,10 +104,9 @@ const ProfilePage = () => {
 
     return (
         <div className="dashboard-container">
-            <AmazingNavbar onNavigate={() => { /* No internal navigation on profile page */ }} />
-            <h1 style={{ paddingTop: '100px' }}>Dashboard</h1>
+            <AmazingNavbar onNavigate={() => {}} />
 
-            {/* <div className="dashboard-row animate">
+            <div className="dashboard-row animate">
                 <section className="dashboard-section">
                     <h2>Add New Expense</h2>
                     <form onSubmit={handleExpenseSubmit} style={{ display: 'grid', gap: '1rem' }}>
@@ -182,7 +170,7 @@ const ProfilePage = () => {
                         ))}
                         {displayedExpenses.length === 0 && <p style={{ color: '#a8b2d1' }}>No expenses recorded for the selected period.</p>}
                     </ul>
-                </section>
+                </section> 
             </div>
 
             <div className="dashboard-row animate">
@@ -193,7 +181,7 @@ const ProfilePage = () => {
                     </div>
                 </section>
 
-                <section className="dashboard-section">
+                {/* <section className="dashboard-section">
                     <h2>Your Accounts</h2>
                     <ul>
                         {userAccounts.map((account, index) => (
@@ -203,18 +191,38 @@ const ProfilePage = () => {
                             </li>
                         ))}
                     </ul>
-                </section>
-            </div> */}
-            <div className = "animate"><h1>Dashboard</h1>
+                </section> */}
+            </div>
 
-                <div className="dashboard-row">
+            <div className="dashboard-row animate">
+                {/* <section className="dashboard-section">
+                    <h2>Future Goals</h2>
+                    <ul>
+                        {futureGoals.map((goal, index) => (
+                            <li key={index} style={{ padding: '0.75rem 0', borderBottom: '1px solid #233554' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                                    <span>{goal.name}</span>
+                                    <span>{goal.current} / {goal.target}</span>
+                                </div>
+                                <div style={{ backgroundColor: '#233554', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
+                                    <div style={{
+                                        backgroundColor: '#64ffda',
+                                        height: '100%',
+                                        width: ${calculateGoalProgress(goal.target, goal.current)}%,
+                                        borderRadius: '4px'
+                                    }}></div>
+                                </div>
+                                <span style={{ fontSize: '0.8rem', color: '#a8b2d1', display: 'block', textAlign: 'right' }}>{calculateGoalProgress(goal.target, goal.current)}% Achieved</span>
+                            </li>
+                        ))}
+                        {futureGoals.length === 0 && <p style={{ color: '#a8b2d1' }}>No future goals set yet.</p>}
+                    </ul>
+                </section> */}
 
-                <section className="dashboard-section">
-                    <h2>Daily Quiz & More</h2>
-                    <p style={{ color: '#a8b2d1', marginBottom: '1rem', textAlign: 'center' }}>
-                        Get better at understanding and managing your finances through quick games!
-                    </p>
-                    <Link href="/games">
+                {/* <section className="dashboard-section">
+                    <h2>Chat with Our Assistant</h2>
+                    <p>Need help managing your expenses? Chat with our assistant for personalized guidance.</p>
+                    <Link href="/chatbot">
                         <button
                             style={{
                                 padding: '10px 20px',
@@ -223,38 +231,12 @@ const ProfilePage = () => {
                                 borderRadius: '4px',
                                 border: 'none',
                                 cursor: 'pointer',
-                                fontWeight: 'bold',
-                                transition: 'background-color 0.3s ease',
                             }}
-                            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#52e0c4'}
-                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#64ffda'}
                         >
-                            Play
+                            Navigate to Chatbot
                         </button>
                     </Link>
-                </section>
-
-
-
-                    <section className="dashboard-section">
-                        <h2>Chat with Our Assistant</h2>
-                        <p>Need help managing your expenses? Chat with our assistant for personalized guidance.</p>
-                        <Link href="/chatbot">
-                            <button
-                                style={{
-                                    padding: '10px 20px',
-                                    backgroundColor: '#64ffda',
-                                    color: '#233554',
-                                    borderRadius: '4px',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                Navigate to Chatbot
-                            </button>
-                        </Link>
-                    </section>
-                </div>
+                </section> */}
             </div>
         </div>
     );

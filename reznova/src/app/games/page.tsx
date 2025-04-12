@@ -205,41 +205,16 @@ const ProfilePage = () => {
                     </ul>
                 </section>
             </div> */}
-            <div className = "animate"><h1>Dashboard</h1>
+            <div className="animate"><h1>Dashboard</h1>
 
                 <div className="dashboard-row">
 
-                <section className="dashboard-section">
-                    <h2>Daily Quiz & More</h2>
-                    <p style={{ color: '#a8b2d1', marginBottom: '1rem', textAlign: 'center' }}>
-                        Get better at understanding and managing your finances through quick games!
-                    </p>
-                    <Link href="/games">
-                        <button
-                            style={{
-                                padding: '10px 20px',
-                                backgroundColor: '#64ffda',
-                                color: '#233554',
-                                borderRadius: '4px',
-                                border: 'none',
-                                cursor: 'pointer',
-                                fontWeight: 'bold',
-                                transition: 'background-color 0.3s ease',
-                            }}
-                            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#52e0c4'}
-                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#64ffda'}
-                        >
-                            Play
-                        </button>
-                    </Link>
-                </section>
-
-
-
                     <section className="dashboard-section">
-                        <h2>Chat with Our Assistant</h2>
-                        <p>Need help managing your expenses? Chat with our assistant for personalized guidance.</p>
-                        <Link href="/chatbot">
+                        <h2>Daily Quiz</h2>
+                        <p style={{ color: '#a8b2d1', marginBottom: '1rem', textAlign: 'center' }}>
+                            Answer 5 questions based on your expenses to learn more about your spending habits!
+                        </p>
+                        <Link href="/dailyQuiz">
                             <button
                                 style={{
                                     padding: '10px 20px',
@@ -248,9 +223,35 @@ const ProfilePage = () => {
                                     borderRadius: '4px',
                                     border: 'none',
                                     cursor: 'pointer',
+                                    fontWeight: 'bold',
+                                    transition: 'background-color 0.3s ease',
                                 }}
+                                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#52e0c4'}
+                                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#64ffda'}
                             >
-                                Navigate to Chatbot
+                                Take Quiz
+                            </button>
+                        </Link>
+                    </section>
+                    <section className="dashboard-section">
+                        <h2>FinQuest</h2>
+                        <p style={{ color: '#a8b2d1', marginBottom: '1rem', textAlign: 'center' }}>Play our AI powered game that merges the real world with your financial decisions. Stay on top of the world.</p>
+                        <Link href="/games">
+                            <button
+                                style={{
+                                    padding: '10px 20px',
+                                    backgroundColor: '#64ffda',
+                                    color: '#233554',
+                                    borderRadius: '4px',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    fontWeight: 'bold',
+                                    transition: 'background-color 0.3s ease',
+                                }}
+                                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#52e0c4'}
+                                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#64ffda'}
+                            >
+                                Begin Simulation
                             </button>
                         </Link>
                     </section>
